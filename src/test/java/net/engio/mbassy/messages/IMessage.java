@@ -5,12 +5,12 @@ package net.engio.mbassy.messages;
  * @author bennidi
  *         Date: 5/24/13
  */
-public interface IMessage {
+public interface IMessage<T> {
 
     void reset();
 
-    void handled(Class listener);
+    void handled(T listener);
 
-    int getTimesHandled(Class listener);
+    int getTimesHandled(T listener);
 
 }

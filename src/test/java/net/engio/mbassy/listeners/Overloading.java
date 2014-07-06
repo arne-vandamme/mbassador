@@ -12,9 +12,9 @@ import net.engio.mbassy.messages.AbstractMessage;
  */
 public class Overloading {
 
-    public static class TestMessageA extends AbstractMessage {}
+    public static class TestMessageA extends AbstractMessage<Class> {}
 
-    public static class TestMessageB extends AbstractMessage {}
+    public static class TestMessageB extends AbstractMessage<Class> {}
 
     public static class ListenerSub extends ListenerBase {
 

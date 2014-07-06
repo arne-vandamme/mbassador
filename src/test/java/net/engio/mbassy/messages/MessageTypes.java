@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author bennidi
  *         Date: 5/24/13
  */
-public enum MessageTypes implements IMessage{
+public enum MessageTypes implements IMessage<Class>{
 
     Simple,
     Persistent,

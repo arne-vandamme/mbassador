@@ -1,7 +1,6 @@
 package net.engio.mbassy.messages;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
@@ -9,10 +8,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author bennidi
  *         Date: 5/24/13
  */
-public abstract class AbstractMessage implements IMessage{
+public abstract class AbstractMessage<T> implements IMessage<T>{
 
-    private Map<Class, Integer> handledByListener = new HashMap<Class, Integer>();
+    private Map<T, Integer> handledByListener = new HashMap<T, Integer>();
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+	private List<T> handlersInOrder = new LinkedList<T>();
 
 
     @Override
@@ -26,9 +26,10 @@ public abstract class AbstractMessage implements IMessage{
     }
 
     @Override
-    public void handled(Class listener) {
+    public void handled(T listener) {
         lock.writeLock().lock();
         try {
+	        handlersInOrder.add( listener );
             Integer count = handledByListener.get(listener);
             if(count == null){
                 handledByListener.put(listener, 1);
@@ -42,7 +43,7 @@ public abstract class AbstractMessage implements IMessage{
     }
 
     @Override
-    public int getTimesHandled(Class listener) {
+    public int getTimesHandled(T listener) {
         lock.readLock().lock();
         try {
             return handledByListener.containsKey(listener)
@@ -52,4 +53,13 @@ public abstract class AbstractMessage implements IMessage{
             lock.readLock().unlock();
         }
     }
+
+	public List<T> getHandledList() {
+		lock.readLock().lock();
+		try {
+			return new ArrayList<T>( handlersInOrder );
+		}finally {
+			lock.readLock().unlock();
+		}
+	}
 }

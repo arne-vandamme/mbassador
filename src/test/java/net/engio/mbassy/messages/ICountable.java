@@ -6,11 +6,11 @@ package net.engio.mbassy.messages;
  * @author bennidi
  *         Date: 5/24/13
  */
-public interface ICountable {
+public interface ICountable<T> {
 
     void reset();
 
-    void handled(Class listener);
+    void handled(T listener);
 
-    int getTimesHandled(Class listener);
+    int getTimesHandled(T listener);
 }
