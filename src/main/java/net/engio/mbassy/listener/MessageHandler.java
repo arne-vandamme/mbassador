@@ -114,6 +114,19 @@ public class MessageHandler {
 
     private final boolean isSynchronized;
 
+	protected MessageHandler() {
+		this.handler = null;
+		this.filter = null;
+		this.condition = null;
+		this.priority = 0;
+		this.invocation = null;
+		this.invocationMode = null;
+		this.isEnvelope = false;
+		this.acceptsSubtypes = false;
+		this.listenerConfig = null;
+		this.isSynchronized = false;
+		this.handledMessages = null;
+	}
 
     public MessageHandler(Map<String, Object> properties){
         super();
@@ -216,5 +229,9 @@ public class MessageHandler {
     public boolean acceptsSubtypes() {
         return acceptsSubtypes;
     }
+
+	public void invoke( final Object listener, final Object message) throws java.lang.IllegalAccessException, java.lang.IllegalArgumentException, java.lang.reflect.InvocationTargetException {
+		handler.invoke( listener, message );
+	}
 
 }
